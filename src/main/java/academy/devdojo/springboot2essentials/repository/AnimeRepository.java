@@ -31,4 +31,14 @@ public class AnimeRepository {
 
         return anime;
     }
+
+    public long delete(long id) {
+        animes.remove(this.findOneById(id));
+        return 1L;
+    }
+
+    public void replace(Anime anime) {
+        this.delete(anime.getId());
+        animes.add(anime);
+    }
 }

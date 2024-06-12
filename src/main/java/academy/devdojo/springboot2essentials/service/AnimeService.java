@@ -24,4 +24,12 @@ public class AnimeService {
         return animeRepository.save(anime);
     }
 
+    public long delete(long id) {
+        return animeRepository.delete(id);
+    }
+
+    public void replace(Anime anime) {
+        animeRepository.replace(anime);
+    }
+
 }
