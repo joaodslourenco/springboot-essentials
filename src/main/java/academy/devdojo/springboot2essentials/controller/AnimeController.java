@@ -1,6 +1,9 @@
 package academy.devdojo.springboot2essentials.controller;
 
 import academy.devdojo.springboot2essentials.domain.Anime;
+
+import academy.devdojo.springboot2essentials.requests.AnimePostRequestBody;
+import academy.devdojo.springboot2essentials.requests.AnimePutRequestBody;
 import academy.devdojo.springboot2essentials.service.AnimeService;
 import academy.devdojo.springboot2essentials.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -28,22 +31,23 @@ public class AnimeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Anime> findOne(@PathVariable long id) {
-        return ResponseEntity.ok(animeService.findById(id));
+        return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestException(id));
     }
 
     @PostMapping
-    public ResponseEntity<Anime> save(@RequestBody Anime anime) {
-        return new ResponseEntity<Anime>(animeService.save(anime), HttpStatus.CREATED);
+    public ResponseEntity<Anime> save(@RequestBody AnimePostRequestBody animePostRequestBody) {
+        return new ResponseEntity<Anime>(animeService.save(animePostRequestBody), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Long> delete(@PathVariable long id) {
-        return ResponseEntity.ok(animeService.delete(id));
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        animeService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<Void> replace(@RequestBody Anime anime) {
-        animeService.replace(anime);
+    public ResponseEntity<Void> replace(@RequestBody AnimePutRequestBody animePutRequestBody) {
+        animeService.replace(animePutRequestBody);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
